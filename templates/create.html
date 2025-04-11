@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Create Post{% endblock %}
+{% block content %}
+    <h2>Create a New Post</h2>
+    <form action="/create" method="POST" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="Post title" required><br>
+        <textarea name="content" placeholder="Post content" required></textarea><br>
+
+        <label>Header Image:</label>
+        <input type="file" name="header_image" accept="image/*"><br>
+
+        <label>Body Images (multiple):</label>
+        <input type="file" name="body_images" accept="image/*" multiple><br>
+
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}

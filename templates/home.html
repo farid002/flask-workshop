@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Home - My Blog{% endblock %}
+{% block content %}
+    <h2>Blog Posts</h2>
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post-card">
+                <a href="/create">
+                    <h3>{{ post.title }}</h3>
+                </a>
+                <p>{{ post.content }}</p>
+                {% if post['header_image'] %}
+                  <img src="{{ url_for('static', filename=post['header_image'].split('static/')[-1]) }}" class="header-img">
+                {% endif %}
+
+                <p>{{ post['content'] }}</p>
+
+                {% for img in body_images %}
+                  <img src="{{ url_for('static', filename=img['image_path'].split('static/')[-1]) }}" class="body-img">
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
