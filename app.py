@@ -89,6 +89,37 @@ def create_post():
         return redirect(url_for("home"))
     return render_template("create.html")
 
+@app.route("/statistics")
+def statistics():
+    conn = get_db()
+    posts = conn.execute("SELECT * FROM posts").fetchall()
+    conn.close()
+
+    total_posts = len(posts)
+    total_words = 0
+    total_characters = 0
+    post_stats = []
+
+    for post in posts:
+        words = post["content"].split()
+        word_count = len(words)
+        char_count = len(post["content"])
+        total_words += word_count
+        total_characters += char_count
+
+        post_stats.append({
+            "title": post["title"],
+            "word_count": word_count,
+            "char_count": char_count
+        })
+
+    return render_template("statistics.html",
+                           total_posts=total_posts,
+                           total_words=total_words,
+                           total_characters=total_characters,
+                           post_stats=post_stats)
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True, port=5005)

@@ -1,11 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title - Oguz</title>
-  umumi post sayi, her posta gore kelime, herf sayi, umumi herf, kelime sayi ve s.
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Statistics - My Blog{% endblock %}
+{% block content %}
+    <h2>Blog Statistics</h2>
 
-</body>
-</html>
+    <div class="stats-summary">
+        <p><strong>Total Posts:</strong> {{ total_posts }}</p>
+        <p><strong>Total Words:</strong> {{ total_words }}</p>
+        <p><strong>Total Characters:</strong> {{ total_characters }}</p>
+    </div>
+
+    <div class="post-stats">
+        <h3>Per Post Statistics</h3>
+        <ul>
+            {% for stat in post_stats %}
+                <li>
+                    <strong>{{ stat.title }}</strong> -
+                    Words: {{ stat.word_count }},
+                    Characters: {{ stat.char_count }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
