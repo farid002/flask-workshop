@@ -33,6 +33,16 @@ def init_db():
                 FOREIGN KEY (post_id) REFERENCES posts(id)
             )
         ''')
+    # Create messages table
+    conn.execute('''
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                message TEXT NOT NULL
+            )
+        ''')
+
 
     conn.commit()
     conn.close()
@@ -88,6 +98,23 @@ def create_post():
 
         return redirect(url_for("home"))
     return render_template("create.html")
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    success = False
+    if request.method == "POST":
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+
+        conn = get_db()
+        conn.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
+                     (name, email, message))
+        conn.commit()
+        conn.close()
+        success = True
+
+    return render_template("contact.html", success=success)
 
 if __name__ == "__main__":
     init_db()
