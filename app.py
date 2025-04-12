@@ -45,6 +45,13 @@ def home():
     conn.close()
     return render_template("home.html", posts=posts)
 
+@app.route("/todolist")
+def todolist():
+    conn = get_db()
+    posts = conn.execute("SELECT * FROM posts").fetchall()
+    conn.close()
+    return render_template("todopage.html", post=posts)
+
 
 @app.route("/create", methods=["GET", "POST"])
 def create_post():

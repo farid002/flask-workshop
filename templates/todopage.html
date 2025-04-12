@@ -1,13 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title - Osman</title>
-  add to do
-  delete to do
-  list to dos
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Task Manager - Osman{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin: 40px auto; font-family: sans-serif;">
+    <h1 style="text-align: center;">📝 Task Manager</h1>
+
+    <div style="margin-top: 30px;">
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="margin-bottom: 15px;">
+                <a href="{{ url_for('create_post') }}" style="text-decoration: none; color: #2b7cff;">
+                    ➕ Add a Task
+                </a>
+            </li>
+            <li style="margin-bottom: 15px;">
+                <a href="{{ url_for('home') }}" style="text-decoration: none; color: #ff4f4f;">
+                    🗑 Delete a Task
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('todolist') }}" style="text-decoration: none; color: #28a745;">
+                    📋 View All Tasks
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
