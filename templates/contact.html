@@ -1,12 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <h1>Contact melumatlari - Farhad</h1>
-    <h1>Contact form -> hansi ki data.db da messages table i yaradir ve contact formda doldurulan hisseni add edir</h1>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Contact melumatlari{% endblock %}
+{% block content %}
+<h1>Bizimlə Əlaqə</h1>
 
-</body>
-</html>
+<form method="POST" action="{{ url_for('contact') }}">
+    <label for="name">Ad:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="message">Mesaj:</label><br>
+    <textarea id="message" name="message" rows="5" required></textarea><br><br>
+
+    <button type="submit">Göndər</button>
+</form>
+
+{% if success %}
+    <p style="color: green;">Mesaj uğurla göndərildi. Təşəkkürlər!</p>
+{% endif %}
+{% endblock %}

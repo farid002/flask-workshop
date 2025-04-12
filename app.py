@@ -30,13 +30,22 @@ def init_db():
 
     # Create images table
     conn.execute('''
-        CREATE TABLE IF NOT EXISTS images (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            post_id INTEGER NOT NULL,
-            image_path TEXT NOT NULL,
-            FOREIGN KEY (post_id) REFERENCES posts(id)
-        )
-    ''')
+            CREATE TABLE IF NOT EXISTS images (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                post_id INTEGER NOT NULL,
+                image_path TEXT NOT NULL,
+                FOREIGN KEY (post_id) REFERENCES posts(id)
+            )
+        ''')
+    # Create messages table
+    conn.execute('''
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                message TEXT NOT NULL
+            )
+        ''')
 
     conn.commit()
     conn.close()
@@ -68,8 +77,9 @@ def create_post():
         header_image_path = None
         if header_image_file and header_image_file.filename != '':
             header_filename = secure_filename(header_image_file.filename)
-            header_image_path = f"static/uploads/{header_filename}"
-            header_image_file.save(os.path.join('static', 'uploads', header_filename))
+            header_image_path = f"static/uploads/{header_filename}"  # Force forward slashes
+            header_image_file.save(os.path.join('static', 'uploads', header_filename))  # Use correct path for saving
+
 
         # Insert post
         conn = get_db()
@@ -88,12 +98,36 @@ def create_post():
                 web_path = f'static/uploads/{filename}'
                 cur.execute("INSERT INTO images (post_id, image_path) VALUES (?, ?)", (post_id, web_path))
 
+
         conn.commit()
         conn.close()
 
         return redirect(url_for("home"))
     return render_template("create.html")
 
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    success = False
+    if request.method == "POST":
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+
+        conn = get_db()
+        conn.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
+                     (name, email, message))
+        conn.commit()
+        conn.close()
+        success = True
+
+    return render_template("contact.html", success=success)
+
+@app.route("/messages")
+def view_messages():
+    conn = get_db()
+    messages = conn.execute("SELECT * FROM messages").fetchall()
+    conn.close()
+    return render_template("messages.html", messages=messages)
 
 @app.route("/statistics")
 def statistics():
