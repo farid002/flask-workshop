@@ -116,6 +116,14 @@ def contact():
 
     return render_template("contact.html", success=success)
 
+@app.route("/messages")
+def view_messages():
+    conn = get_db()
+    messages = conn.execute("SELECT * FROM messages").fetchall()
+    conn.close()
+    return render_template("messages.html", messages=messages)
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True, port=5005)

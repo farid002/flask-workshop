@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Mesaj Siyahısı{% endblock %}
+
+{% block content %}
+<h1>Göndərilən Mesajlar</h1>
+
+{% if messages %}
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad</th>
+                <th>Email</th>
+                <th>Mesaj</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for msg in messages %}
+            <tr>
+                <td>{{ msg['id'] }}</td>
+                <td>{{ msg['name'] }}</td>
+                <td>{{ msg['email'] }}</td>
+                <td>{{ msg['message'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Hələlik heç bir mesaj göndərilməyib.</p>
+{% endif %}
+
+{% endblock %}
