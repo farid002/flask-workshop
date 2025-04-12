@@ -8,7 +8,6 @@
                 <a href="/create">
                     <h3>{{ post.title }}</h3>
                 </a>
-                <p>{{ post.content }}</p>
                 {% if post['header_image'] %}
                   <img src="{{ url_for('static', filename=post['header_image'].split('static/')[-1]) }}" class="header-img">
                 {% endif %}

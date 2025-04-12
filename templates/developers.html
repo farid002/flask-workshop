@@ -1,11 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    export as csv, export as json etc.
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Developers - My Blog{% endblock %}
 
-</body>
-</html>
+{% block content %}
+<h2>🛠 Developer Tools</h2>
+
+<p>You can export the blog data below:</p>
+
+<div class="export-buttons">
+    <a href="{{ url_for('export_json') }}" class="btn btn-primary">📁 Export as JSON</a>
+    <a href="{{ url_for('export_csv') }}" class="btn btn-secondary">📄 Export as CSV</a>
+</div>
+
+<style>
+    .export-buttons {
+        margin-top: 20px;
+    }
+    .export-buttons a {
+        display: inline-block;
+        margin-right: 15px;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: white;
+        background-color: #007BFF;
+    }
+    .export-buttons a.btn-secondary {
+        background-color: #28A745;
+    }
+</style>
+{% endblock %}
