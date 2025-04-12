@@ -136,3 +136,37 @@ form button:hover {
   margin: 10px 0;
   border: 1px solid #ccc;
 }
+
+.stats-summary p {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.stats-section {
+    margin-top: 30px;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.stats-table th, .stats-table td {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.stats-table th {
+    background-color: #2d3e50;
+    color: white;
+}
+
+.stats-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.charts {
+    margin-top: 40px;
+}

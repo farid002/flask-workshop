@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Statistics - My Blog{% endblock %}
+
 {% block content %}
-    <h2>Blog Statistics</h2>
+<div class="content">
+    <h2>📊 Blog Statistics</h2>
 
     <div class="stats-summary">
         <p><strong>Total Posts:</strong> {{ total_posts }}</p>
@@ -9,16 +11,65 @@
         <p><strong>Total Characters:</strong> {{ total_characters }}</p>
     </div>
 
-    <div class="post-stats">
-        <h3>Per Post Statistics</h3>
-        <ul>
-            {% for stat in post_stats %}
-                <li>
-                    <strong>{{ stat.title }}</strong> -
-                    Words: {{ stat.word_count }},
-                    Characters: {{ stat.char_count }}
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="stats-section">
+        <h3>📝 Per Post Breakdown</h3>
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Word Count</th>
+                    <th>Character Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in post_stats %}
+                    <tr>
+                        <td>{{ stat.title }}</td>
+                        <td>{{ stat.word_count }}</td>
+                        <td>{{ stat.char_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    <div class="charts">
+        <h3>📈 Visual Representation</h3>
+        <canvas id="wordChart"></canvas>
+        <canvas id="charChart" style="margin-top: 30px;"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {{ labels | tojson }};
+    const wordCounts = {{ word_counts | tojson }};
+    const charCounts = {{ char_counts | tojson }};
+
+    const wordCtx = document.getElementById('wordChart').getContext('2d');
+    const wordChart = new Chart(wordCtx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Word Count',
+                data: wordCounts,
+                backgroundColor: '#4e73df'
+            }]
+        }
+    });
+
+    const charCtx = document.getElementById('charChart').getContext('2d');
+    const charChart = new Chart(charCtx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Character Count',
+                data: charCounts,
+                backgroundColor: '#1cc88a'
+            }]
+        }
+    });
+</script>
 {% endblock %}
