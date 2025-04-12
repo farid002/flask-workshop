@@ -57,8 +57,8 @@ def create_post():
         header_image_path = None
         if header_image_file and header_image_file.filename != '':
             header_filename = secure_filename(header_image_file.filename)
-            header_image_path = os.path.join('static/uploads', header_filename)
-            header_image_file.save(header_image_path)
+            header_image_path = f"static/uploads/{header_filename}"  # Force forward slashes
+            header_image_file.save(os.path.join('static', 'uploads', header_filename))  # Use correct path for saving
 
         # Insert post first
         conn = sqlite3.connect('data.db')
@@ -74,10 +74,14 @@ def create_post():
         for img in body_images:
             if img and img.filename != '':
                 filename = secure_filename(img.filename)
-                img_path = os.path.join('static/uploads', filename)
-                img.save(img_path)
+                save_path = os.path.join('static', 'uploads', filename)  # Actual disk path
+                img.save(save_path)
+
+                # Web-friendly path with forward slashes
+                web_path = f'static/uploads/{filename}'
+
                 cur.execute("INSERT INTO images (post_id, image_path) VALUES (?, ?)",
-                            (post_id, img_path))
+                            (post_id, web_path))
 
         conn.commit()
         conn.close()
